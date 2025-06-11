@@ -1,0 +1,166 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "a90c09f4-1aef-4935-9170-9a310db01693",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Create an email content by considering the below (remove the additional content and give a gentle reminder if the task was completed; appreciate them if it was completed; if it was not completed, remind them to complete it):\n\n\nDear {{ $json.Name }}, \nYour task description {{ $json['Meeting Notes'] }}\nYour task is {{ $json.Status }}\n\nThank you! Good day...",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        580,
+        0
+      ],
+      "id": "2383efcb-d5b1-4521-a7de-4f5ea67d9815",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        720,
+        240
+      ],
+      "id": "9eaf1b27-6621-4c4d-8bea-f45b3c6af8ee",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jPZQfwG2yvaUknjS",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1MWZJRpvb4_YEdrK1Nu8AbllZ0O893fQCRqzHOsnhZUw",
+          "mode": "list",
+          "cachedResultName": "Report",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1MWZJRpvb4_YEdrK1Nu8AbllZ0O893fQCRqzHOsnhZUw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1MWZJRpvb4_YEdrK1Nu8AbllZ0O893fQCRqzHOsnhZUw/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        220,
+        0
+      ],
+      "id": "33024f11-2a28-49b0-a27a-7d9dd61978e3",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CAeZIiP9FZHX8RKz",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Google Sheets').item.json['Mail ID'] }}",
+        "subject": "=Hello {{ $('Google Sheets').item.json.Name }}",
+        "emailType": "text",
+        "message": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        940,
+        0
+      ],
+      "id": "dbe73167-3c0d-46b7-a8ca-65a0e0a0822e",
+      "name": "Gmail",
+      "webhookId": "ae6d0046-9f6b-4317-89ce-06765c98915a",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "j47AfcP8Xu8XQ7EH",
+          "name": "Gmail account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a1163536-e13f-4607-8ecc-5c1960dec4bd",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ccaf382a76d6d276df7e4e103c8ecc15d358094287638f33e2e456c8751d5011"
+  },
+  "id": "r0QIwsUNgaFt6S66",
+  "tags": []
+}
