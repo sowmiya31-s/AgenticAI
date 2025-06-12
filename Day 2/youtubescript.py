@@ -1,7 +1,7 @@
 import streamlit as st
 import google.generativeai as genai
 from fpdf import FPDF
-import os
+import os 
 
 # 🔐 Configure Gemini API Key (Replace with your secure key)
 genai.configure(api_key="AIzaSyCL6YH9Oji5IWPNIriG_FejN2IzKZfE1LE")
