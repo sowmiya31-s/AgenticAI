@@ -1,0 +1,548 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 7 * * *"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        60
+      ],
+      "id": "bf098cb0-e4b6-408f-9dc3-567514f611bd",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1Ez7tC2oZYtP6eE5pB3RCBSNje6XjNVh3Tps5L9U1sMk",
+          "mode": "list",
+          "cachedResultName": "GoogleSheet_Attendance_Src1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ez7tC2oZYtP6eE5pB3RCBSNje6XjNVh3Tps5L9U1sMk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ez7tC2oZYtP6eE5pB3RCBSNje6XjNVh3Tps5L9U1sMk/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        220,
+        -140
+      ],
+      "id": "5810551b-7b47-4763-8e21-e79d74a949a3",
+      "name": "Attendance_Src1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "k6WsMA9OZx4Xfp0z",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1ZiI_iOuDIYylDzqM5D5XE716UKhI98BijROeUQ9yiTI",
+          "mode": "list",
+          "cachedResultName": "GoogleSheet_Attendance_Src2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZiI_iOuDIYylDzqM5D5XE716UKhI98BijROeUQ9yiTI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZiI_iOuDIYylDzqM5D5XE716UKhI98BijROeUQ9yiTI/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        220,
+        60
+      ],
+      "id": "18fc1c63-0f30-4043-a59b-e13b0387b718",
+      "name": "Attendance_Src2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "k6WsMA9OZx4Xfp0z",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1b2-DaiUWc2LeRQPQ00F4zJicJd_O5lTxoFwvoHbK4LQ",
+          "mode": "list",
+          "cachedResultName": "GoogleSheet_Attendance_Src3",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1b2-DaiUWc2LeRQPQ00F4zJicJd_O5lTxoFwvoHbK4LQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1b2-DaiUWc2LeRQPQ00F4zJicJd_O5lTxoFwvoHbK4LQ/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        440,
+        260
+      ],
+      "id": "b0373279-be24-4122-bb7d-b582acde5fa3",
+      "name": "Attendance_Src3",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "k6WsMA9OZx4Xfp0z",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => ({\n  json: {\n    \"Employee ID\": item.json[\"Employee ID\"]?.toString().trim(),\n    \"Name\": item.json[\"Name\"]?.toString().trim(),\n    \"Email\": item.json[\"Email\"]?.toString().trim(),\n    \"Date\": item.json[\"Date\"]?.toString().trim(),\n    \"Status_1\": item.json[\"Status\"]?.toString().trim()\n  }\n}));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        -140
+      ],
+      "id": "1c409c31-aafd-4e19-bf04-d9799ed65139",
+      "name": "Normalize Src1"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map((item) => ({\n  json: {\n    \"Employee ID\": item.json[\"Employee ID\"]?.toString().trim(),\n    Name: item.json[\"Full Name\"]?.toString().trim(),\n    Email: item.json[\"Email\"]?.toString().trim(),\n    Date: item.json[\"Date\"]?.toString().trim(),\n    Status_2: item.json[\"Status\"]?.toString().trim(),\n  },\n}));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        60
+      ],
+      "id": "7aaa7464-7934-446a-9433-182f10f980f4",
+      "name": "Normalize Src2"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map((item) => ({\n  json: {\n    \"Employee ID\": item.json[\"Employee ID\"]?.toString().trim(),\n    Name: item.json[\"Name\"]?.toString().trim(),\n    Email: item.json[\"Email\"]?.toString().trim(),\n    Date: item.json[\"Date\"]?.toString().trim(),\n    Status_3: item.json[\"Status\"]?.toString().trim(),\n  },\n}));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        260
+      ],
+      "id": "4bd95822-9e42-4796-9f2b-73adc573e275",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "fieldsToMatchString": "Employee ID, Date",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        660,
+        -40
+      ],
+      "id": "fa461097-a49d-4468-bc0e-dc8ffca244ce",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "fieldsToMatchString": "Employee ID, Date",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        880,
+        60
+      ],
+      "id": "f3514a0e-60d8-4bd5-bf4e-6611d8bf9d11",
+      "name": "Final Merge",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        280
+      ],
+      "id": "00165c12-6f1c-4864-bdaa-b1308d1553f0",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "lKTzVkcr0N3UIoZ8",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "You are an AI attendance reconciliation assistant.  \n\n### Strict Instructions:\n1. **Process ONLY the input records provided below** - output must contain the EXACT same number of records as the input.\n2. **Never include the input data** in your response - only return the reconciled output.\n3. **Never generate example data** - only process what you're given.\n4. **Preserve all original fields** - include Employee ID, Name, Email, and Date in every output record.\n\n\n### Rules:  \n1. **Final Status (Majority-Based):**  \n   - If ≥2 statuses are `Present` → `Final Status = \"Present\"`  \n   - If ≥2 statuses are `Absent` → `Final Status = \"Absent\"`  \n   - (For ties or other statuses, default to `\"Present\"`)\n\n2. **Discrepancy Field:**  \n   - If all 3 statuses match → `\"No discrepancies\"`  \n   - If statuses differ → Format:  \n     - `\"Discrepancy (2 Present, 1 Absent)\"`  \n     - `\"Discrepancy (1 Present, 2 Absent)\"`  \n     - (List exact counts of each unique status)\n\n### Input Data (from previous node):  \n```json\n{{ JSON.stringify($input.all()) }}\n\nRequired Output Format (JSON array):\n\n[\n  {\n    \"Employee ID\": \"E001\",\n\t\"Name\": \"Sowmiya\",\n    \"Email\": \"da4.iqac@snsgroups.com\",\n    \"Date\": \"28-06-25\",\n    \"Final Status\": \"Present\",\n    \"Discrepancy\": \"Discrepancy (2 Present, 1 Absent)\"\n  },\n  {\n    \"Employee ID\": \"E002\",\n\t\"Name\": \"Vikram\",\n    \"Email\": \"vikramsamraj7@gmail.com\",\n    \"Date\": \"28-06-25\",\n    \"Final Status\": \"Absent\",\n    \"Discrepancy\": \"No discrepancies\"\n  }\n  // ... EXACTLY one output per input record\n]\n\nProcess NOW and return ONLY the reconciled output.\n\n\n---\n\n### **Key Fixes in This Prompt**:\n1. **Strict Record Matching**  \n   - Explicitly orders the AI to **output the same number of records as input**.\n   - Uses `// ... EXACTLY one output per input record` as a visual reminder.\n\n2. **No Input Leakage**  \n   - Commands the AI to **never include input data** in the response.\n\n3. **No Example Generation**  \n   - Removes phrases like \"Example input/output\" that could trigger extra data.\n\n4. **Clear Majority Logic**  \n   - Simplifies edge-case handling (defaults to `Present` for ties).\n\n---\n\n### **Expected Output for Your 6-Row Input**:\n```json\n[\n  {\n    \"Employee ID\": \"E001\",\n\t\"Name\": \"Sowmiya\",\n    \"Email\": \"da4.iqac@snsgroups.com\",\n    \"Date\": \"28-06-25\",\n    \"Final Status\": \"Absent\", // 1P, 2A → Majority Absent\n    \"Discrepancy\": \"Discrepancy (1 Present, 2 Absent)\"\n  },\n  {\n    \"Employee ID\": \"E002\",\n\t\"Name\": \"Vikram\",\n    \"Email\": \"vikramsamraj7@gmail.com\",\n    \"Date\": \"28-06-25\",\n    \"Final Status\": \"Absent\",\n    \"Discrepancy\": \"No discrepancies\"\n  },\n  {\n    \"Employee ID\": \"E003\",\n\t\"Name\": \"Dharshini\",\n    \"Email\": \"da5.iqac@snsgroups.com\",\n    \"Date\": \"28-06-25\",\n    \"Final Status\": \"Present\",\n    \"Discrepancy\": \"No discrepancies\"\n  },\n  {\n    \"Employee ID\": \"E004\",\n\t\"Name\": \"Stephy\",\n    \"Email\": \"da3.iqac@snsgroups.com\",\n    \"Date\": \"28-06-25\",\n    \"Final Status\": \"Present\",\n    \"Discrepancy\": \"No discrepancies\"\n  },\n  {\n    \"Employee ID\": \"E005\",\n    \"Name\": \"Karthi\",\n    \"Email\": \"da7.iqac@snsgroups.com\",\n    \"Date\": \"29-06-25\",\n    \"Final Status\": \"Present\",\n    \"Discrepancy\": \"No discrepancies\"\n  },\n  {\n    \"Employee ID\": \"E006\",\n\t\"Name\": \"Vadivukarasi\",\n    \"Email\": \"da8.iqac@snsgroups.com\",\n    \"Date\": \"30-06-25\",\n    \"Final Status\": \"Absent\",\n    \"Discrepancy\": \"No discrepancies\"\n  }\n]",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        1100,
+        60
+      ],
+      "id": "483cfc9c-2f0f-401c-8936-47f463eac0a7",
+      "name": "Format Reconciled Output"
+    },
+    {
+      "parameters": {
+        "jsCode": "function cleanAgentOutput(agentResponse) {\n  // Case 1: If output is already valid JSON array, return it directly\n  if (Array.isArray(agentResponse)) {\n    return agentResponse;\n  }\n\n  // Case 2: If output contains multiple JSON blocks in markdown\n  const jsonStrings = [];\n  const regex = /```json\\n([\\s\\S]*?)\\n```/g;\n  let match;\n  \n  // Extract all JSON blocks from markdown\n  while ((match = regex.exec(agentResponse)) !== null) {\n    try {\n      const parsed = JSON.parse(match[1]);\n      if (Array.isArray(parsed)) {\n        jsonStrings.push(parsed);\n      }\n    } catch (e) {\n      console.error(\"Failed to parse JSON block:\", e);\n    }\n  }\n\n  // Case 3: If we found multiple JSON blocks, take the last valid one\n  if (jsonStrings.length > 0) {\n    return jsonStrings[jsonStrings.length - 1];\n  }\n\n  // Case 4: Try to parse the entire response as JSON\n  try {\n    const parsed = JSON.parse(agentResponse);\n    return Array.isArray(parsed) ? parsed : [];\n  } catch (e) {\n    console.error(\"Failed to parse as JSON:\", e);\n  }\n\n  return [];\n}\n\n// Process all outputs from the Agent node\nconst processedOutputs = $input.all().flatMap(item => {\n  const cleaned = cleanAgentOutput(item.json.output || item.json);\n  return Array.isArray(cleaned) ? cleaned : [];\n});\n\n// Get unique records (in case of duplicates)\nconst uniqueRecords = [];\nconst seen = new Set();\n\nprocessedOutputs.forEach(record => {\n  const key = `${record[\"Employee ID\"]}-${record[\"Date\"]}`;\n  if (!seen.has(key)) {\n    seen.add(key);\n    uniqueRecords.push(record);\n  }\n});\n\n// Return in n8n format\nreturn uniqueRecords.map(record => ({ json: record }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1460,
+        60
+      ],
+      "id": "bd04eadf-143f-4978-8cbb-37118a09c73e",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "11OfiQQUrNWPqS_QSI_7cSnBa0Wd44rPnMjr9xf80LXU",
+          "mode": "list",
+          "cachedResultName": "Master_Attendance_Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11OfiQQUrNWPqS_QSI_7cSnBa0Wd44rPnMjr9xf80LXU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11OfiQQUrNWPqS_QSI_7cSnBa0Wd44rPnMjr9xf80LXU/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Employee ID": "={{ $json[\"Employee ID\"] }}",
+            "Date": "={{ $json.Date }}",
+            "Final Status": "={{ $json[\"Final Status\"] }}",
+            "Discrepancy": "={{ $json.Discrepancy }}",
+            "Name": "={{ $json.Name }}",
+            "Email": "={{ $json.Email }}"
+          },
+          "matchingColumns": [
+            "Employee ID"
+          ],
+          "schema": [
+            {
+              "id": "Employee ID",
+              "displayName": "Employee ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Final Status",
+              "displayName": "Final Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Discrepancy",
+              "displayName": "Discrepancy",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1680,
+        60
+      ],
+      "id": "37cc84c5-34dd-4428-b6db-6cfc156fd6f9",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "k6WsMA9OZx4Xfp0z",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "=Your Attendance Status for {{ $json[\"Date\"] }}",
+        "message": "=<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Attendance Notification</title>\n    <style>\n        body {\n            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n            line-height: 1.6;\n            color: #333;\n            margin: 0;\n            padding: 0;\n            background-color: #f4f4f4;\n        }\n        \n        .email-container {\n            max-width: 600px;\n            margin: 20px auto;\n            background-color: #ffffff;\n            border-radius: 10px;\n            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\n            overflow: hidden;\n        }\n        \n        .header {\n            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n            color: white;\n            padding: 30px;\n            text-align: center;\n        }\n        \n        .header h1 {\n            margin: 0;\n            font-size: 24px;\n            font-weight: 300;\n        }\n        \n        .content {\n            padding: 40px 30px;\n        }\n        \n        .greeting {\n            font-size: 18px;\n            font-weight: 600;\n            color: #2c3e50;\n            margin-bottom: 20px;\n        }\n        \n        .attendance-info {\n            background-color: #f8f9fa;\n            border-left: 4px solid #dc3545;\n            padding: 20px;\n            margin: 20px 0;\n            border-radius: 0 5px 5px 0;\n        }\n        \n        .attendance-date {\n            font-size: 16px;\n            font-weight: 600;\n            color: #495057;\n            margin-bottom: 10px;\n        }\n        \n        .attendance-status {\n            font-size: 18px;\n            font-weight: 700;\n            color: #dc3545;\n            margin-bottom: 15px;\n        }\n        \n        .discrepancy-note {\n            background-color: #fff3cd;\n            border: 1px solid #ffeaa7;\n            border-radius: 5px;\n            padding: 15px;\n            margin: 20px 0;\n        }\n        \n        .discrepancy-note strong {\n            color: #856404;\n        }\n        \n        .cta-section {\n            text-align: center;\n            margin: 30px 0;\n        }\n        \n        .cta-button {\n            display: inline-block;\n            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n            color: white;\n            padding: 15px 30px;\n            text-decoration: none;\n            border-radius: 25px;\n            font-weight: 600;\n            font-size: 16px;\n            transition: all 0.3s ease;\n            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);\n        }\n        \n        .cta-button:hover {\n            transform: translateY(-2px);\n            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);\n            color: white;\n            text-decoration: none;\n        }\n        \n        .footer {\n            background-color: #2c3e50;\n            color: #ecf0f1;\n            padding: 20px 30px;\n            text-align: center;\n            font-size: 14px;\n        }\n        \n        .divider {\n            height: 2px;\n            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n            margin: 20px 0;\n            border: none;\n        }\n        \n        @media (max-width: 600px) {\n            .email-container {\n                margin: 10px;\n                border-radius: 5px;\n            }\n            \n            .content {\n                padding: 20px 15px;\n            }\n            \n            .header {\n                padding: 20px 15px;\n            }\n            \n            .cta-button {\n                padding: 12px 25px;\n                font-size: 14px;\n            }\n        }\n    </style>\n</head>\n<body>\n    <div class=\"email-container\">\n        <div class=\"header\">\n            <h1>📅 Attendance Notification</h1>\n        </div>\n        \n        <div class=\"content\">\n            <div class=\"greeting\">\n                Dear {{ $json.Name }},\n            </div>\n            \n            <p>We hope this email finds you well. We're writing to inform you about your attendance record for the date mentioned below.</p>\n            \n            <div class=\"attendance-info\">\n                <div class=\"attendance-date\">\n                    📅 Date: <strong>{{ $json.Date }}</strong>\n                </div>\n                <div class=\"attendance-status\">\n                    Status: <strong>{{ $json['Final Status'] }}</strong>\n                </div>\n            </div>\n            \n            <div class=\"discrepancy-note\">\n                <strong>⚠️ Note:</strong> {{ $json.Discrepancy }}<br>\n            </div>\n            \n            <hr class=\"divider\">\n            \n            <p>To review your complete attendance records and verify the information, please click the button below to access the master attendance sheet:</p>\n            \n            <div class=\"cta-section\">\n                <a href=\"https://docs.google.com/spreadsheets/d/11OfiQQUrNWPqS_QSI_7cSnBa0Wd44rPnMjr9xf80LXU/edit?usp=sharing\" class=\"cta-button\" target=\"_blank\">\n                    📊 View Master Attendance Sheet\n                </a>\n            </div>\n            \n            <p>If you believe there's an error in your attendance record or need to discuss this matter further, please don't hesitate to contact the HR department.</p>\n            \n            <p>Thank you for your attention to this matter.</p>\n        </div>\n        \n        <div class=\"footer\">\n            <strong>Best regards,</strong><br>\n            HR Department<br>\n            📧 hr@company.com | 📞 +1 (555) 123-4567\n        </div>\n    </div>\n</body>\n</html>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1900,
+        60
+      ],
+      "id": "b4edfbc1-59dd-4b4e-8725-d5c8d9906361",
+      "name": "Send a message",
+      "webhookId": "22a8239a-c9e9-44fc-8c2b-32569490c1c2",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "jggxE87VlBsInDFN",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Attendance_Src1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Attendance_Src2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Attendance_Src3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Attendance_Src1": {
+      "main": [
+        [
+          {
+            "node": "Normalize Src1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Attendance_Src2": {
+      "main": [
+        [
+          {
+            "node": "Normalize Src2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Attendance_Src3": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Src1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Src2": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Final Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Final Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Final Merge": {
+      "main": [
+        [
+          {
+            "node": "Format Reconciled Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Format Reconciled Output",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Reconciled Output": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "saveExecutionProgress": true,
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "7e7e6254-d151-4d9e-946e-08ab25374109",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f5b41a25a22fb5b973dede3e81be2c4ccda5742532699467d52c99854178ea59"
+  },
+  "id": "qQWqpK0cQV2sFPUR",
+  "tags": []
+}
